@@ -1,0 +1,34 @@
+
+spring:
+  main:
+    web-application-type: reactive  # Ensures the application is reactive
+
+  application:
+    name: gateway-service
+
+  cloud:
+    gateway:
+      routes:
+        - id: service01_route
+          uri: lb://service01  # Load-balanced URI for service01
+          predicates:
+            - Path=/{id}  # Route to service01 for requests like /1, /2, etc.
+        - id: service01_root
+          uri: lb://service01  # Route for the root path "/"
+          predicates:
+            - Path=/  # Routes requests like "/"
+
+server:
+  port: 8080
+
+# Eureka Client Configuration
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+  instance:
+    preferIpAddress: true
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    leaseRenewalIntervalInSeconds: 10
+    leaseExpirationDurationInSeconds: 20

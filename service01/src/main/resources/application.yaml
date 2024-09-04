@@ -1,0 +1,41 @@
+# Spring Properties
+spring:
+  application:
+    name: service01
+
+# Discovery Server Access
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+  instance:
+    preferIpAddress: true  # Set to true for IP-based registration
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  # Dynamic instanceId generation
+    leaseRenewalIntervalInSeconds: 10  # Short interval for quicker updates
+    leaseExpirationDurationInSeconds: 20
+
+# HTTP Server
+server:
+  port: 8082
+
+## Spring Properties
+#spring:
+#  application:
+#    name: service01
+#
+## Discovery Server Access
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:1111/eureka/
+#  instance:
+#    preferIpAddress: false  # Consistent with service02 instances
+#    metadataMap:
+#      instanceId: service01-instance  # Optional but ensures unique instanceId
+#    leaseRenewalIntervalInSeconds: 10
+#    leaseExpirationDurationInSeconds: 20
+#
+## HTTP Server
+#server:
+#  port: 8082
