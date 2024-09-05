@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  eureka-server:
+    build: ./eureka-server
+    ports:
+      - "1111:1111"
+    networks:
+      - spring-cloud-network
+
+  service01:
+    build: ./service01
+    ports:
+      - "8082:8082"
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - eureka-server
+
+  service02-instance1:
+    build: ./service02-instance1
+    ports:
+      - "8085:8085"
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - eureka-server
+
+  service02-instance2:
+    build: ./service02-instance2
+    ports:
+      - "8086:8086"
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - eureka-server
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - eureka-server
+      - service01
+      - service02-instance1
+      - service02-instance2
+
+networks:
+  spring-cloud-network:
+    driver: bridge
