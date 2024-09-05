@@ -7,7 +7,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:1111/eureka/
+      defaultZone: http://eureka-server:1111/eureka/
   instance:
     preferIpAddress: true  # Set to true for IP-based registration
     metadataMap:

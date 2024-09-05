@@ -7,7 +7,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:1111/eureka/
+      defaultZone: http://eureka-server:1111/eureka/
   instance:
     preferIpAddress: true  # Set to true for IP-based registration
     metadataMap:
@@ -20,23 +20,3 @@ server:
   port: 8085
 
 
-## Spring Properties
-#spring:
-#  application:
-#    name: service02
-#
-## Discovery Server Access
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:1111/eureka/
-#  instance:
-#    preferIpAddress: false
-#    metadataMap:
-#      instanceId: service02-instance1
-#    leaseRenewalIntervalInSeconds: 10
-#    leaseExpirationDurationInSeconds: 20
-#
-## HTTP Server
-#server:
-#  port: 8085
