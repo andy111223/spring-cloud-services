@@ -1,50 +1,61 @@
 version: '3.8'
+
 services:
   eureka-server:
-    build: ./eureka-server
+    image: andy111223/spring-cloud-services:eureka-server
+    container_name: eureka-server
     ports:
       - "1111:1111"
     networks:
       - spring-cloud-network
 
-  service01:
-    build: ./service01
-    ports:
-      - "8082:8082"
-    networks:
-      - spring-cloud-network
-    depends_on:
-      - eureka-server
-
-  service02-instance1:
-    build: ./service02-instance1
-    ports:
-      - "8085:8085"
-    networks:
-      - spring-cloud-network
-    depends_on:
-      - eureka-server
-
-  service02-instance2:
-    build: ./service02-instance2
-    ports:
-      - "8086:8086"
-    networks:
-      - spring-cloud-network
-    depends_on:
-      - eureka-server
-
   gateway:
-    build: ./gateway
+    image: andy111223/spring-cloud-services:gateway
+    container_name: gateway
     ports:
       - "8080:8080"
-    networks:
-      - spring-cloud-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:1111/eureka/
     depends_on:
       - eureka-server
-      - service01
-      - service02-instance1
-      - service02-instance2
+    networks:
+      - spring-cloud-network
+
+  service01:
+    image: andy111223/spring-cloud-services:service01
+    container_name: service01
+    ports:
+      - "8082:8082"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:1111/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - spring-cloud-network
+
+  service02-instance1:
+    image: andy111223/spring-cloud-services:service02-instance1
+    container_name: service02-instance1
+    ports:
+      - "8085:8085"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:1111/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - spring-cloud-network
+
+  service02-instance2:
+    image: andy111223/spring-cloud-services:service02-instance2
+    container_name: service02-instance2
+    ports:
+      - "8086:8086"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:1111/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - spring-cloud-network
 
 networks:
   spring-cloud-network:
